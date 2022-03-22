@@ -1,0 +1,151 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[legalpaper, portrait, margin=0.8in]{geometry}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{todonotes}
+\usepackage{ragged2e}
+\usepackage{amsmath}
+\usepackage{caption} 
+\captionsetup{width=1\linewidth}
+\usepackage{tabularx}
+\usepackage{dirtytalk}
+
+\usepackage{array,booktabs}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+
+\newcommand{\ttt}[1]{\texttt{#1}}
+
+\setlength\parindent{0pt}
+\setlength{\parskip}{1.em}
+\title{
+    \huge{Architecture-Driven Development} \\
+    \includegraphics[scale = 0.30, trim={0 3cm 0 0}, clip]{st-andrews-logo.png} 
+}
+\author{ 170002815 $\cdot$ MATRIC NO $\cdot$ MATRIC NO $\cdot$ MATRIC NO \vspace{3mm} \\ \\ CS5033 $\cdot$ Practical 2}
+\date{22 March 2022}
+
+\begin{document}
+\maketitle
+
+% Labels should be formatted in the following way
+% - Section:    {sect: SECTION}
+% - Subsection: {sect: SECTION: SUBSECTION}
+% - Figure:     {fig: FIGURE}
+% - Table:      {table: TABLE}
+
+% Subsubsections should avoid numbering:
+% \subsubsection*{SUBSUBSECTION}
+
+% Example section references:
+% LONG NOTATION:
+% Section \ref{sect: SECTION: SUBSECTION}
+% SHORT NOTATION:
+% \S\ref{sect: SECTION: SUBSECTIOn}
+
+% Example Figure (note images directory path is automatically added):
+% \vspace{4mm}
+% \begin{figure} [H]
+%   \centering
+%   \includegraphics[scale = 0.65]{IMAGE.png}
+%   \caption{Some caption}
+%   \label{fig: LABEL}
+% \end{figure}
+
+% Example quote:
+% \say{QUOTE}
+
+% Example bold, italic & monospace:
+% \textbf{BOLD} \textit{ITALIC} \ttt{MONO}
+
+% Example TODO:
+% \todo{NOTE OF WHAT TO DO}
+
+% Example missing figure
+% \missingfigure{WHAT FIGURE SHOULD BE}
+
+% Example website reference (place in refs.bib)
+% @misc{DETAILED-REFERENCE-NAME,
+%     url = {URL},
+%     title = {{TITLE, WEBSITE}},
+%     note = {{Accessed: 2022-03-DAY}},
+% }
+
+
+
+
+\section{Overview}
+\label{sect: overview}
+\input{sections/overview.tex}
+% A brief overview of the report (not in spec)
+
+
+
+\section{Architecting Process}
+\label{sect: process}
+\input{sections/process.tex}
+% A brief description of the process used to derive the architecture (you are not required to document every step)
+
+
+
+
+\section{Requirements Analysis \& Assumptions}
+\label{sect: requirements}
+\input{sections/requirements.tex}
+% A list of functional and non-functional requirements of the system along with their priorities, and any design or business constraints
+
+
+
+
+\section{Architecture}
+\label{sect: architecture}
+\input{sections/architecture.tex}
+% The architecture specification in terms of appropriate views, including justification of chosen notation(s), styles adopted and design decisions,
+
+
+
+
+\section{Implementation}
+\label{sect: implementation}
+\input{sections/implementation.tex}
+% A brief analysis of the architecture and the implementation plan, including how architectural styles and constraints would be maintained in the implementation
+
+
+
+
+
+\section{Evaluation}
+\label{sect: evaluation}
+\input{sections/evaluation.tex}
+% A brief analysis of the architecture and the implementation plan, including how architectural styles and constraints would be maintained in the implementation
+% AND
+% A critical evaluation of your solution particularly with respect to important quality attributes
+
+
+
+
+
+\section{Conclusion}
+\label{sect: conclusion}
+\input{sections/conclusion.tex}
+% A brief conclusion of the report (not in spec)
+
+
+
+
+
+
+
+\appendix
+
+\RaggedRight
+\bibliographystyle{IEEEtran}
+\bibliography{refs.bib}
+
+% \section{Scenario}
+% \label{appendix: scenario}
+% \input{sections/appendices/scenario.tex}
+
+\end{document}
