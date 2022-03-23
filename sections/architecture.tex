@@ -1,0 +1,56 @@
+\subsection{Modelling Language}
+\label{sect: architecture: modelling language}
+
+To formally describe the final architecture produced for this report, the C4 model is used in combination with a notation similar to UML.
+
+
+
+\subsubsection*{C4 Model}
+The C4 model primarily consists of four different architectural viewpoints, described in the form of diagrams, which represent an architecture as a hierarchical set of abstractions \cite{c4Model}. The viewpoints are designed to reflect to how software architects and developers think about and build software, and are summarised as follows.
+
+\begin{itemize}
+  \item \textbf{System Context Diagram}: A viewpoint which describes a system's architecture as a whole, allowing viewers to see the \say{big picture}. The diagram has a focus on the users of the system, rather than specific details, such as which technologies are used. Section \ref{sect: architecture: overview} explores the system context diagram for the chosen architecture in this report.
+
+  \item \textbf{Container Diagram}: A viewpoint which shows the details of a single subsystem within a system context diagram. The diagram is composed of containers, which represent an application or datastore (e.g. a web application, filesystem, database, etc.), and high-level references to other subsystems. Section \ref{sect: architecture: container diagrams} explores several container diagrams for the chosen architecture in this report.
+
+  \item \textbf{Component Diagram}: A viewpoint which describes a single container within a container diagram, with respect to the major building blocks (i.e. components) that make up the container. Component diagrams contain some specific details, such as the technology used to implement or communicated between services, but still provide a relatively high-level overview of a container. Section \ref{sect: architecture: component diagrams} explores some component diagrams for the chosen architecture in this report.
+
+  \item \textbf{Code Diagram}: A viewpoint which describes a single component within a component diagram as it is implemented within code, including the classes and interface involved, and their relationships. Code diagrams are not explored in this report, as they reference relatively low-level implementation details, and could be automatically generated from code written during the system's development.
+\end{itemize}
+
+The C4 model also includes three supplementary diagrams: the system landscape diagram, the dynamic diagram, and the deployment diagram. However, none of these are reference within this report, as the four core diagrams are sufficient to capture the chosen architecture \cite{c4Model}.
+
+
+
+
+
+\subsubsection*{Notation}
+\todo{find out from Ben \& Jordan what notation is used}
+
+
+
+
+
+\subsection{Overview}
+\label{sect: architecture: overview}
+
+\todo{sys context diagram}
+
+
+
+
+\subsection{Clients}
+\label{sect: architecture: clients}
+
+\todo{container diagrams for clients}
+
+
+
+\subsection{Containers}
+\label{sect: architecture: container diagrams}
+
+
+
+\subsection{Components}
+\label{sect: architecture: component diagrams}
+
