@@ -21,6 +21,20 @@
 \usepackage[linesnumbered,ruled]{algorithm2e}
 
 
+\makeatletter
+
+\def\@setref#1#2#3{%
+  \ifx#1\relax
+   \protect\G@refundefinedtrue
+   \nfss@text{\reset@font\bfseries\Large\textcolor{red}{???}}%
+   \@latex@warning{Reference `#3' on page \thepage \space
+             undefined}%
+  \else
+   \expandafter#2#1\null
+  \fi}
+
+\makeatother
+
 
 \newcommand{\ttt}[1]{\texttt{#1}}
 
@@ -70,7 +84,14 @@
 % \todo{NOTE OF WHAT TO DO}
 
 % Example missing figure
-% \missingfigure{WHAT FIGURE SHOULD BE}
+% \vspace{4mm}
+% \begin{figure} [H]
+%   \centering
+%   % \includegraphics[scale = 0.65]{IMAGE.png}
+%   \missingfigure{WHAT IS MISSING?}
+%   \caption{Some caption}
+%   \label{fig: LABEL}
+% \end{figure}
 
 % Example website reference (place in refs.bib)
 % @misc{DETAILED-REFERENCE-NAME,
@@ -148,8 +169,8 @@
 \bibliographystyle{IEEEtran}
 \bibliography{refs.bib}
 
-% \section{Scenario}
-% \label{appendix: scenario}
-% \input{sections/appendices/scenario.tex}
+\section{Scenario}
+\label{appendix: scenario}
+\input{sections/appendices/scenario.tex}
 
 \end{document}

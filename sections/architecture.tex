@@ -34,7 +34,80 @@ The C4 model also includes three supplementary diagrams: the system landscape di
 \subsection{Overview}
 \label{sect: architecture: overview}
 
-\todo{sys context diagram}
+The architecture derived for the scenario listed in Appendix \ref{appendix: scenario} is fundamentally a service-oriented architecture (SOA), as the key functionality of the system is implemented by multiple independent, distributed services. The core services used and their roles within the architecture are as follows.
+
+\begin{itemize}
+  \item \textbf{Patient Information Service}: Handles create/read/update/delete (CRUD) operations relating to patient information, employing business rules in combination with authentication to authorise information appropriately. . This service is described further in Section \ref{sect: architecture: patient info svc}.
+
+  \item \textbf{Appointment Service}: Handles CRUD operations relating to appointments, employing business rules in combination with authentication to authorise information appropriately. This service is described further in Section \ref{sect: architecture: appt svc}.
+
+  \item \textbf{Ambulance Service}: \todo{does what? (see reqs)} This service is described further in Section \ref{sect: architecture: ambulance svc}.
+
+  \item \textbf{GP Notification Service}: \todo{does what? (see reqs)} This service is described further in Section \ref{sect: architecture: gp notification svc}.
+\end{itemize}
+
+\todo{which reqs are satisfied by which svc?}
+
+
+In order to enable user interaction with services, a client-server-like architectural style is employed for user-service interactions; Section \ref{sect: architecture: clients} discusses this further.
+
+
+Figure \ref{fig: arch overview / system context diagram} displays the system context diagram (see \S\ref{sect: architecture: modelling language}), where the set of core services, users, and interactions can be seen.
+
+
+\vspace{4mm}
+\begin{figure} [H]
+  \centering
+  % \includegraphics[scale = 0.65]{IMAGE.png}
+  \missingfigure{System context diagram}
+  \caption{The system context diagram for the chosen architecture, displaying the service-oriented approach used as the fundamental architecture for the system.}
+  \label{fig: arch overview / system context diagram}
+\end{figure}
+
+
+As the target system's domains can be partitioned with relative ease, an SOA is a suitable choice for the overarching architectural style \cite{fundamentalsOfSWA-SOA}. Although there are other applicable architectural styles for the target system, the following benefits of an SOA were the primary driving factors in the decision to prioritise it over other architectural styles.
+
+
+\begin{itemize}
+  \item Services can be developed independently, reducing time-to-market, as independent teams can develop each service, and improving business agility, as each service's business rules can be adapted independently, provided the boundaries within the architecture are enforced effectively (see \S\todo{ref SOA not an arch in Eval sec})\cite{ibmSOA}. This is primarily an advantage over more rigid architectures, such as those using a monolithic style.
+
+  \item Services can be deployed independently, facilitating the maintainability, short-term scalability (elasticity), and long-term scalability of the target system. This is primarily an advantage over architectures which are designed to have a one-to-one mapping from system instance to deployment machine, such as an architecture employing a layered monolithic style.
+
+  \item Services are more independent with respect to failure than other architectural styles. This means that if one service fails, the failure of other services is not guaranteed, which is particularly beneficial for the target system, as the domains are mostly disconnected. For example, if the GP Notification Service fails, the other services in the system are not guaranteed to fail, meaning that the system will still provide the majority of its functionality to users. Overall, this makes the system more resilient to
+
+  \item Similarly to failure, the services are more independent with respect to performance than other architectural styles. For example, if the GP Notification Service handles requests slowly due to a bug in its implementation, the Ambulance Service would be unaffected in terms of performance, provided it is deployed on a different machine; this is particularly beneficial for the target system, as some services, such as the Patient Information Service, require a certain level of performance to function as required.
+
+  \item Due to the network-based nature of an SOA, services and clients are typically designed to be more robust to failure, improving the overall reliability of the system.
+
+  \item Integration with external systems, such as the \todo{hospital system}, is facilitated, as the target system will be deployed on a network due to the nature of an SOA. Similarly, integration with legacy systems which might need to be included in the newly developed system is facilitated \cite{ibmSOA}.
+
+  \item The enforcement of architectural boundaries of the target system's domain is improved, as each service's boundary can be mapped directly to each domain's architectural boundary.
+
+  \item The domain-driven separation of services, in combination with their low levels of interaction, mitigate the negative effects of an SOA, including selecting an appropriate granularity and handling service choreography/orchestration \cite{fundamentalsOfSWA-SOA}.
+\end{itemize}
+
+
+
+
+
+\subsection{Patient Info Service}
+\label{sect: architecture: patient info svc}
+
+
+
+\subsection{Appointments Service}
+\label{sect: architecture: appt svc}
+
+
+
+\subsection{GP Notification Service}
+\label{sect: architecture: gp notification svc}
+
+
+
+\subsection{Ambulance Service}
+\label{sect: architecture: ambulance svc}
+
 
 
 
@@ -42,15 +115,13 @@ The C4 model also includes three supplementary diagrams: the system landscape di
 \subsection{Clients}
 \label{sect: architecture: clients}
 
+\todo{client-server pattern / style}
 \todo{container diagrams for clients}
 
 
 
-\subsection{Containers}
-\label{sect: architecture: container diagrams}
+\subsection{Authentication}
+\label{sect: architecture: authentication}
 
 
-
-\subsection{Components}
-\label{sect: architecture: component diagrams}
 

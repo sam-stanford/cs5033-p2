@@ -1,4 +1,6 @@
 main.*
 !main.tex
 !main.pdf
-
+*.log
+.vscode
+.vscode/*
