@@ -1,13 +1,8 @@
-\todo{we were thinking about two separate info svcs, so maybe argue the case as to why / why not}
-
-
-
-
-
-
 \subsection{Current Considerations}
+\label{sect: evaluation: current considerations}
 
 \subsubsection*{Authentication Performance Bottleneck}
+- SAM
 - All devices must communicate with auth service
 - Can be imrpoved by replicating and distributing replicas, but this adds significant amount of complexity
 
@@ -22,16 +17,17 @@
 
 
 \subsubsection*{Data Loss in Event-Driven Styles}
-- SAM
-- Ambulance \& GP service can lose info (responsibility down to devs to req-reply)
+The use of event-driven styles within the architecture includes the pub-sub messaging systems employed in the GP Notification Service (see \S\ref{sect: architecture: gp notification svc}) and the Ambulance Service (see \S\ref{sect: architecture: ambulance svc}), as well as the multilevel priority queue used in the Patient Information Service (see \S\ref{sect: architecture: patient information svc}). Each of these applications of event-driven architecture comes with the risk of data being lost, as the intermediate stores for the respective \say{events} are memory-based, meaning that data will be lost upon service failure if the correct precautions are not taken.
 
-- Patient Info service priority queues do not back up info
-- Tricky to fix, but maybe just better to ignore, as information such as blood pressure can quickly be regathered
+The proposed architecture takes step to mitigate data loss within the GP Notification Service by backing-up notifications which are buffered within the pub-sub messaging system to a resilient datastore (see \S\ref{sect: architecture: gp notification svc}); the Ambulance Service's pub-sub system also has similar functionality.
+
+However, the multilevel priority queue within the Patient Information Service does not currently have any architectural support for providing fault-tolerance with respect to write requests which arrive in the queue. Improvements to the architecture could include the use of a simple append-only log-file to reduce the amount of data lost in a fault, and more complex fault-tolerance mechanics could be applied to mitigate almost all data loss; however, the overhead introduced by such a scheme could be counterintuitive as much patient data (e.g. blood pressure readings) could likely be regenerated fairly easily.
+
 
 
 \subsubsection*{BFF \& Gateway Patterns}
 - SAM
-- using both rather than just one might be considered unusual
+- using both rather than just one might be considered unusual \& come with unnecessary overhead
 - reuse functionality through gateway (e.g. security filters)
 - some can't be (e.g. req coalescing)
 - Combining both is beneficial
@@ -43,7 +39,7 @@
 \todo{rename sect}
 
 - one svc vs many services
-
+- choice driven by component principles
 
 \subsubsection*{Pub-Sub Message Loss}
 - SAM
@@ -65,15 +61,18 @@
 
 
 \subsubsection*{Data Security}
-- SAM
-- Sensitive data
-- Stored in one database, so checks can be applied \& added easily
-- OAuth 2 is pretty proven (used by FB, etc.)
+One key consideration for the target system is that of data security, as patient health data can be considered to be very sensitive information \cite{EUHealthDataProtection}. In evaluating the proposed architecture, it can be seen that the architecture supports the implementation of data security in the following ways.
+
+\begin{itemize}
+  \item All sensitive data is stored in a single datastore within the Patient Information Service (see \S\ref{sect: architecture: patient information svc}). This means that the introduction and management of security policies and measures is greatly facilitated during the system's implementation and lifecycle.
+  \item The integration of the OAuth 2 framework within the architecture facilitates the secure authentication of users using a modern protocol (see \S\ref{sect: architecture: authentication}).
+\end{itemize}
 
 
 
 
 \subsection{Lifecycle Considerations}
+\label{sect: evaluation: lifecycle considerations}
 
 \subsubsection*{System Evolution}
 - IRA
