@@ -3,3 +3,16 @@
 \todo{SOA is not \textbf{that} important in an arch, but instead we should focus on boundaries (see Clean Architectrue book ch 27 \cite{cleanArch-Services})}
 
 \todo{experiences of group members?}
+
+\subsubsection*{Data Loss in Event-Driven Styles}
+- Ambulance \& GP service can lose info (responsibility down to devs to req-reply)
+
+- Patient Info service priority queues do not back up info
+- Tricky to fix, but maybe just better to ignore, as information such as blood pressure can quickly be regathered
+
+
+\subsubsection*{BFF \& Gateway Patterns}
+- using both rather than just one might be considered unusual
+- reuse functionality through gateway (e.g. security filters)
+- some can't be (e.g. req coalescing)
+- Combining both is beneficial
