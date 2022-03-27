@@ -1,10 +1,28 @@
 \todo{we were thinking about two separate info svcs, so maybe argue the case as to why / why not}
 
-\todo{SOA is not \textbf{that} important in an arch, but instead we should focus on boundaries (see Clean Architectrue book ch 27 \cite{cleanArch-Services})}
 
-\todo{experiences of group members?}
+
+
+
+
+\subsection{Current Considerations}
+
+\subsubsection*{Authentication Performance Bottleneck}
+- All devices must communicate with auth service
+- Can be imrpoved by replicating and distributing replicas, but this adds significant amount of complexity
+
+
+\subsubsection*{Architect Biases}
+- IRA
+- did a lot of research on styles
+- natural biases
+- influence from past project \& current trends
+- SOA is held highly
+- monolithic layered are shunned (good for critical system)
+
 
 \subsubsection*{Data Loss in Event-Driven Styles}
+- SAM
 - Ambulance \& GP service can lose info (responsibility down to devs to req-reply)
 
 - Patient Info service priority queues do not back up info
@@ -12,7 +30,71 @@
 
 
 \subsubsection*{BFF \& Gateway Patterns}
+- SAM
 - using both rather than just one might be considered unusual
 - reuse functionality through gateway (e.g. security filters)
 - some can't be (e.g. req coalescing)
 - Combining both is beneficial
+
+
+
+\subsubsection*{Patient Information Service Bloating}
+- SAM
+\todo{rename sect}
+
+- one svc vs many services
+
+
+\subsubsection*{Pub-Sub Message Loss}
+- SAM
+- potential issue
+- relies on implementation to get correct (developer vigilance)
+
+
+
+
+\subsubsection*{Size}
+- IRA
+
+- Splitting into teams could be Tricky
+- Overarching architects or not? (trade-offs)
+
+
+
+
+
+
+\subsubsection*{Data Security}
+- SAM
+- Sensitive data
+- Stored in one database, so checks can be applied \& added easily
+- OAuth 2 is pretty proven (used by FB, etc.)
+
+
+
+
+\subsection{Lifecycle Considerations}
+
+\subsubsection*{System Evolution}
+- IRA
+- Arch is flexible \& maintainable w.r.t. future changes
+- Application of component principles helps with this
+- Documentation
+
+
+\subsubsection*{Architectural Drift \& Erosion}
+- IRA
+
+- Documentation
+
+- From lack of dev vigilance:
+- stick with arch
+- uphold boundaries
+- write docs
+- remove cruft (cite Martin Fowler)
+- team
+- some hoisting has been applied (e.g. service separation), but still left to developers
+- SOA is not \textbf{that} important in an arch, but instead we should focus on boundaries (see Clean Architectrue book ch 27 \cite{cleanArch-Services})
+
+\subsubsection*{ATAM}
+
