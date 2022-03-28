@@ -1,10 +1,6 @@
 \subsection{Current Considerations}
 \label{sect: evaluation: current considerations}
 
-\subsubsection*{Authentication Performance Bottleneck}
-- SAM
-- All devices must communicate with auth service
-- Can be imrpoved by replicating and distributing replicas, but this adds significant amount of complexity
 
 
 \subsubsection*{Architect Biases}
@@ -19,32 +15,26 @@
 \subsubsection*{Data Loss in Event-Driven Styles}
 The use of event-driven styles within the architecture includes the pub-sub messaging systems employed in the GP Notification Service (see \S\ref{sect: architecture: gp notification svc}) and the Ambulance Service (see \S\ref{sect: architecture: ambulance svc}), as well as the multilevel priority queue used in the Patient Information Service (see \S\ref{sect: architecture: patient information svc}). Each of these applications of event-driven architecture comes with the risk of data being lost, as the intermediate stores for the respective \say{events} are memory-based, meaning that data will be lost upon service failure if the correct precautions are not taken.
 
-The proposed architecture takes step to mitigate data loss within the GP Notification Service by backing-up notifications which are buffered within the pub-sub messaging system to a resilient datastore (see \S\ref{sect: architecture: gp notification svc}); the Ambulance Service's pub-sub system also has similar functionality.
+The proposed architecture takes step to mitigate data loss within the GP Notification Service by backing-up notifications which are buffered within the pub-sub messaging system to a resilient datastore (see \S\ref{sect: architecture: gp notification svc}); the Ambulance Service's pub-sub system also has similar functionality. Steps can also be taken with pub-sub systems involving acknowledgement messages (acks) to ensure that messages are only removed from the pub-sub system once they have been correctly handled by the message receiver \cite{googleCloudPubSub}; however, this concern is not facilitated by the architecture and instead relies on developer vigilance to be implemented correctly.
 
 However, the multilevel priority queue within the Patient Information Service does not currently have any architectural support for providing fault-tolerance with respect to write requests which arrive in the queue. Improvements to the architecture could include the use of a simple append-only log-file to reduce the amount of data lost in a fault, and more complex fault-tolerance mechanics could be applied to mitigate almost all data loss; however, the overhead introduced by such a scheme could be counterintuitive as much patient data (e.g. blood pressure readings) could likely be regenerated fairly easily.
 
 
 
+
+\subsubsection*{Authentication Performance Bottleneck}
+The support for authentication provided by the architecture offers many benefits, as discussed in Section \ref{sect: architecture: authentication}. However, as all client devices must communicate with the Authentication Service in order to access the internal services' functionality (see \S\ref{sect: architecture: authentication}), there is a significant risk that the Authentication Service will become a bottleneck for the system.
+
+Solutions to this problem could include replicating the Authentication Service, with replicas either set to handle a specific user type (e.g. \todo{example user type}) or being distributed geographically to reduce latency for user's connection with the Authentication Service. It should be noted that replicating the service could incur significant overhead to the system, meaning that replication should only be used if absolutely required \cite{dataIntensiveApps-NoReplicationIsBetter}.
+
+
 \subsubsection*{BFF \& Gateway Patterns}
-- SAM
-- using both rather than just one might be considered unusual \& come with unnecessary overhead
-- reuse functionality through gateway (e.g. security filters)
-- some can't be (e.g. req coalescing)
-- Combining both is beneficial
+As discussed in Section \ref{sect: architecture: clients}, both the backend-for-frontend (BFF) pattern and gateway pattern are applied within the system's client architectures. Many systems will either employ one pattern or the other, but rarely both together, as the benefits they provide overlap significantly; in fact, the two patterns are sometimes considered synonymous \cite{bffsCouldBeConsideredGateways}. The use of both patterns introduces one extra level of indirection to an extra service node, increasing complexity and incurring a network overhead, both of which could be avoided by using only one of the two patterns.
 
+However, as discussed in Section \ref{sect: architecture: clients}, while the gateway and BFF patterns provide some shared functionality, they also provide functionality unique to each pattern which would be more difficult to apply with the use of only a single pattern.
 
+A potential improvement to this area of the architecture is removing the gateway nodes from the architecture and including their functionality within the BFF nodes through, with the use of the sidecar pattern being employed to provide the shared functionality reuse provided by the gateway pattern without incurring the extra overhead \cite{fundamentalsOfSWA-Microservices}.
 
-\subsubsection*{Patient Information Service Bloating}
-- SAM
-\todo{rename sect}
-
-- one svc vs many services
-- choice driven by component principles
-
-\subsubsection*{Pub-Sub Message Loss}
-- SAM
-- potential issue
-- relies on implementation to get correct (developer vigilance)
 
 
 
@@ -95,5 +85,8 @@ One key consideration for the target system is that of data security, as patient
 - some hoisting has been applied (e.g. service separation), but still left to developers
 - SOA is not \textbf{that} important in an arch, but instead we should focus on boundaries (see Clean Architectrue book ch 27 \cite{cleanArch-Services})
 
-\subsubsection*{ATAM}
 
+
+\subsubsection*{ATAM}
+- IRA
+- If possible?

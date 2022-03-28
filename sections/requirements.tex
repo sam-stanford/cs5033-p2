@@ -1,4 +1,191 @@
 % A list of functional and non-functional requirements of the system along with their priorities, and any design or business constraints
 
+\subsection{Functional Requirements}
+\label{sect: requirements: functional}
+
+-The system shall be able to create and facilitate digital appointments.
+
+-The system shall allow patients to create digital appointments.
+
+-The system shall allow General Practitioners to create digital appointments.
+
+-The system shall be able to securely store sensitive patient data.
+
+-The system shall be able to authenticate patients that interact with the application, by verifying their details against data obtained from the General Practitioners' records.
+
+-The system shall be able to authenticate General Practitioners, General Practice Administrators, Nurses, Ambulance Service Administrators and Health Board Administrators that interact with the application, by verifying their details against data obtained from the National Medical Professionals Database.
+
+-The system shall only allow patients to be referred to the General Practice, following a digital appointment, except in emergencies.
+
+-The system shall allow the patient records to be updated by the General Practitioner.
+
+-The system shall allow the General Practitioner to refer the patient to the Local Health Board if the required service is available locally.
+
+-The system shall only allow the General Practitioner to refer the patient to the National Health Board if the required system is not available locally.
+
+-The system shall allow the patient details to be updated by their General Practitioner, following a digital appointment.
+
+-The system shall allow the patient records to be updated by the General Practitioner, to indicate that a digital appointment has taken place.
+
+-The system shall allow the patient records to be updated by the Health Board Administrator, when the patient goes to A\&E in a Hospital, to indicate that treatment of some kind has taken place.
+
+-The system shall allow Hospital doctors to view patient details and vitals.
+
+-The system shall allow Hospital doctors to add entries on diagnoses made.
+
+-The system shall allow Hospital doctors to add entries on any treatment given.
+
+-The system shall notify the General Practitioners when the Ambulance Service Administrator or Health Board Administrator has updated the patient details.
+
+-The system shall allow the General Practitioners to create digital appointments for patients.
+
+-The system shall allow the General Practitioner to view patients' vitals, such as blood pressure, heart rate, heart-rate variability, oxygen saturation and respiration rate.
+
+-The system shall allow patients to view their vital data that is stored within the system.
+
+-The system shall allow patients to view any changes or new entries made to their vital data, as a result of their digital appointment.
+
+-The system shall allow General Practitioners to access the full record of any patient.
+
+-The system shall allow General Practitioners to order tests for a specific patient that is affiliated with the Practice.
+
+-The system shall allow Nurses to view details of patients' treatments, tests or test results.
+
+-The system shall not allow Nurses to view patients' sensitive information or vitals.
+
+-The system shall allow General Practice Administrators to view appointment details between patients and General Practitioners.
+
+-The system shall allow General Practice Administrators to make or delete appointments, on the behalf of patients.
+
+-The system shall allow General Practice Administrators to obtain a general overview of the Practice's day-to-day activities.
+
+-The system shall allow General Practice Administrators to create statistical reports of the Practice's performance, such as the number of appointments per month, the number of test kits ordered, etc.
+
+-The system shall not allow General Practice Administrators to view any patient information.
+
+-The system shall allow Ambulance Service Administrators to log calls in real-time.
+
+-The system shall allow the Ambulance Service Administrators to view the specific regions where an ambulance is available.
+
+-The system shall allow the Ambulance Service Administrators to dispatch an ambulance that is closest to the region where the call was logged.
+
+-The system shall allow the Ambulance Service Administrators to view patient records and details.
+
+-The system shall allow the patient records to be updated by the Ambulance Service Administrator, to indicate that treatment of some kind has taken place.
+
+-The system should allow Ambulance Service Crew to indicate when each call-out has been addressed.
+
+-The system shall shut down, in the event of a potential cyber threat.
+
+
+
+
+\subsection{Non-Functional Requirements}
+\label{sect: requirements: non-functional}
+
+- -The system shall be able to handle all users that attempt to access, update or modify patient details.
+
+-The system shall be able to handle all users that attempt to access or update treatments given.
+
+-The system shall be able to handle all users that attempt to access or update diagnoses made.
+
+-The system shall be able to support 3,000 concurrent users.
+
+-The system shall be able to process all identifiable data under the Data Protection Act,
+1998.
+
+-The system shall be able to obtain real-time patient vitals in 0.1 seconds.
+
+-The system shall be able to load all operations within 1 second.
+
+-The system shall be able to process all requests within 2 seconds.
+
+-The system shall be available between 24 hours a day, 7 days a week, with the exception of a maintenance window.
+
+-The system should have centralised logs that can maintain all services, instances and
+possible errors in a single location.
+
+-The system shall be accessible via mobile devices and personal computers.
+
+-The system shall be compatible with the latest product-release OS versions.
+
+-The system shall be able to interface with Binah.AI, in order to enable video-calling and obtain real-time patient vitals.
+
+
+
+
+
+
+\subsection{Organisational Requirements}
+\label{sect: requirements: organisational}
+
+-Users of this system shall identify themselves using their National Medical Professionals' Database credentials.
+
+-The system shall be down for maintenance, on the last working day of each calendar month, for 30 minutes.
+
+-The system shall be evaluated for response times on the last working day of each calendar month.
+
+-The system shall be able to prevent cross-scripting attacks.
+
+-The system will not store unencrypted sensitive data.
+
+-Database security must meet the Health Insurance Portability and Accountability Act (HIPAA) requirements.
+
+-All patient data will be retained in system archives for up to 5 years.
+
+
+
+\subsection{External Requirements}
+\label{sect: requirements: external}
+
+-The system should be able to support an annual growth of 10 General Practices that can utilise this platform.
+
+- The system should be able to support a 100\% growth in user concurrency, and still meet
+all defined functional and non-functional requirements.
+
+- The system should utilise cloud-based solutions that facilitate scalability.
+
+
+
+
 \subsection{Assumptions}
 \label{sect: requirements: assumptions}
+
+For the purposes of this practical, there were a number of assumptions that were made, in order to streamline the process of designing a system software for General Practices and to consolidate the expectations of this platform.
+
+These assumptions and their justifications, are listed as follows.
+
+
+\begin{enumerate}
+
+  \item \textbf{We assume that a Health Board Administrator is responsible for redirecting a referred patient to the nearest Hospital that offers their required service. }
+        For example, a student based in St. Andrews would have their patient details and records stored within the Fife Health Board. This is the Health Board that the local General Practice (example- Blackfriars or Pipeland) would refer the patient to.
+        A Health Board could encompass multiple Hospitals - for example, the Fife Health Board could include Adamson Hospital (Cupar), Victoria Hospital (Kirkcaldy), St Andrews Community Hospital, etc. Thus, when a patient is “referred” to a local Health Board, we assume that the General Practice does not refer the patient to a specific Hospital.
+        Hence, we assume that a Health Board Administrator is responsible for selecting the specific Hospital that the patient will be referred to, and as such, will pass the patient's details (vitals, treatment records, diagnoses, personal information, etc) onto this specific hospital. This will ensure that the patient's details are communicated on a need-to-know basis, thereby reducing the chances of sensitive information being released to inappropriate individuals.
+
+  \item \textbf{We assume that the Ambulance Service Administrator is able to dispatch ambulances that are nearest to the individual calling for assistance. }
+        This indicates that the Ambulance Service Administrator retains a degree of autonomy when dispatching ambulances, in order to ensure that assistance is provided as quickly as possible.
+        An example of a scenario where this would be useful would be a call requiring assistance to be sent to St Andrews. If there are two ambulances in Kirkcaldy and Cupar, we would want the Ambulance Service Administrator to be able to send the ambulance in Cupar, as it is closer.
+        Hence, we do not expect the system to be automatically dispatching ambulances, as the calls come in.
+        However, we do expect the system to be able to provide a recommendation of which ambulance is closest (computed using third-party navigation software), which would help the Ambulance Service Administrator dispatch assistance.
+
+
+  \item \textbf{We assume different members of the General Practice/Health Board/Ambulance Crew have different access permissions, regarding patient data. }
+        Primarily, we assume that General Practitioners have access to all patient information. This includes the patient vitals (heart-rate, heart-rate variability, oxygen saturation, respiration rate, parasympathetic activity, etc), sensitive patient information (date of birth, gender, height, weight, etc), patient diagnoses and treatment.
+        We assume that Nurses only have access to patient diagnoses and treatment.
+        We assume that General Practice Administrators have access to no patient data. We assume that these individuals can only view anonymised appointment data.
+        We assume that Health Board Administrators have access to no patient data, except the information that the General Practitioner has sent over, regarding the services required by the patient.
+        We assume that the Hospital doctors have read-only access to patients' vitals and sensitive data, but can update patient diagnoses and treatment.
+        We assume that the Ambulance Service Administrators have no access to patient data, except the data communicated by the patient during the ambulance call.
+        We assume that the Ambulance Service Crew have read-only access to patient vitals and sensitive patient information, but can update patient diagnoses and treatment.
+
+
+  \item \textbf{We assume that the patient does need to make a digital appointment when being seen by a Nurse/General Practitioner in person.}
+        We assume that the patient must make an appointment by phoning the General Practice, in order to be seen by a Nurse or General Practitioner in real life. This allows us to model real-world behaviour as closely as possible, as we would expect that General Practices require an appointment to be made, in advance. This holds true whether it is a digital appointment or an in-person appointment.
+        We also assume that the steps following an in-person appointment are the same as those that follow a digital appointment. Specifically, the patient's vitals are taken and added to the database, treatment is offered/the patient is referred and test kits are ordered.
+
+
+  \item \textbf{We assume that all medical personnel records are registered in a comprehensive database - the National Medical Professionals' Database.}
+        We assume that the credentials utilised to authenticate users are obtained from a centralised database that contains the information of all registered medical professionals within the country. This allows the system architecture to ensure that only authorised medical personnel are allowed to access patient records and that any externally created user accounts (such as system administrators) are automatically unauthorised to view sensitive information.
+
+\end{enumerate}

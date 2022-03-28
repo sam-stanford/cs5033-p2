@@ -58,8 +58,7 @@ Figure \ref{fig: arch overview / system context diagram} displays the system con
 \vspace{4mm}
 \begin{figure} [H]
   \centering
-  % \includegraphics[scale = 0.65]{IMAGE.png}
-  \missingfigure{System context diagram}
+  \includegraphics[scale = 1]{context.png}
   \caption{The system context diagram for the chosen architecture, displaying the service-oriented approach used as the fundamental architecture for the system.}
   \label{fig: arch overview / system context diagram}
 \end{figure}
@@ -134,15 +133,13 @@ As it is assumed that there are many users \todo{cite assumptions}, it is likely
 \subsection{Patient Information Service}
 \label{sect: architecture: patient information svc}
 
-\todo{handles read and writes of all patient info}
-- uses authentication
-- handles all info, as business requirements coulc changed
-- ref eval sect which describes the 2 vs 1 service tradeoff
+The Patient Information Service handles all create, read, update, and delete (CRUD) operations relating to patient information, including personal information, such as patient addresses, as well as medical information, such as blood pressure readings. The service employs the use of role-based authentication to provide different users access to different data, as information handled by the service is considered highly sensitive \cite{EUHealthDataProtection} and different users need different access permissions as per the system requirements \todo{cite assump}
+
 
 \vspace{4mm}
 \begin{figure} [H]
   \centering
-  % \includegraphics[scale = 0.65]{IMAGE.png}
+  \includegraphics[scale = 0.65]{patient-service-container.png}
   \missingfigure{Patient Information Container Diagram}
   \caption{The Appointments Service described using a component diagram.}
   \label{fig: patient information container diagram}
@@ -171,7 +168,6 @@ Although multilevel priority queues are commonly implemented as multilevel feedb
 
 \subsection{GP Notification Service}
 \label{sect: architecture: gp notification svc}
-
 The GP Notification Service is a comparatively simple service which provides the ability to asynchronously pass notifications to GPs through the use of a publish-subscribe messaging system. This service was introduced in the architecture for the following primary reasons.
 
 \begin{enumerate}
