@@ -41,6 +41,7 @@
 \setlength\parindent{0pt}
 \setlength{\parskip}{1.em}
 \title{
+  \vspace{3.5cm} 
     \huge{\textbf{Architecture-Driven \\ Development}} \\
     \includegraphics[scale = 0.26, trim={0 3cm 0 0}, clip]{st-andrews-logo.png} 
 }
@@ -49,6 +50,14 @@
 
 \begin{document}
 \maketitle
+
+\todo{word count}
+
+\newpage
+\renewcommand{\baselinestretch}{0.75}\normalsize
+\tableofcontents
+\renewcommand{\baselinestretch}{1.0}\normalsize
+\newpage
 
 % Labels should be formatted in the following way
 % - Section:    {sect: SECTION}
@@ -107,7 +116,6 @@
 \label{sect: overview}
 \input{sections/overview.tex}
 % A brief overview of the report (not in spec)
-\todo{word count}
 
 
 
@@ -119,7 +127,7 @@
 
 
 
-\section{Requirements Analysis}
+\section{System Overview}
 \label{sect: requirements}
 \input{sections/requirements.tex}
 % A list of functional and non-functional requirements of the system along with their priorities, and any design or business constraints
@@ -161,20 +169,16 @@
 \input{sections/conclusion.tex}
 % A brief conclusion of the report (not in spec)
 
-Overall, this report provides an overview of an architecture for the system described in Appendix \ref{appendix: scenario}, along with a detailed breakdown of the system's requirements, an implementation plan, and a critical evaluation of the proposed architecture.
-
-A range of functional and non-functional requirements were derived from the
-
-A wide variety of both common and unusual architectural features, patterns, and styles have been applied to shape the proposed architecture towards the needs of the target system, including the use of the simple client-server pattern (see \S\ref{sect: architecture: clients}) and a multilevel priority queue (see \S\ref{sect: architecture: patient information svc}).
-
 
 
 \appendix
 
+\newpage
 \RaggedRight
 \bibliographystyle{IEEEtran}
 \bibliography{refs.bib}
 
+\newpage
 \section{Scenario}
 \label{appendix: scenario}
 \input{sections/appendices/scenario.tex}

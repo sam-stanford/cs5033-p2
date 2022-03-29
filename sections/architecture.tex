@@ -1,31 +1,30 @@
 \subsection{Modelling Language}
 \label{sect: architecture: modelling language}
 
-A relatively informal modelling language is used to describe the final architecture produced for this report, with the C4 model being used in combination with a notation similar to UML. This combination was chosen as all team members were relatively familiar with the concepts used for both practices, focussing the project's time to designing and evaluating the architecture, rather than learning modelling languages.
+A relatively informal modelling language is used to describe the final architecture produced for this report, with the C4 Model being employed in combination with a notation similar to UML. This choice was made as all team members were relatively familiar with the concepts used in both practices, focussing the project's time to designing and evaluating the architecture, rather than learning modelling languages.
 
 
 
 \subsubsection*{C4 Model}
-The C4 model primarily consists of four different architectural viewpoints, described in the form of diagrams, which represent an architecture as a hierarchical set of abstractions \cite{c4Model}. The viewpoints are designed to reflect to how software architects and developers think about and build software, and are summarised as follows.
+The C4 Model primarily consists of four different architectural viewpoints, described in the form of diagrams, which represent an architecture as a hierarchical set of abstractions \cite{c4Model}. The viewpoints are designed to reflect how software architects and developers think about and build software, and are summarised as follows.
 
 \begin{itemize}
   \item \textbf{System Context Diagram}: A viewpoint which describes a system's architecture as a whole, allowing viewers to see the \say{big picture}. The diagram has a focus on the users of the system, rather than specific details, such as which technologies are used. Section \ref{sect: architecture: overview} explores the system context diagram for the chosen architecture in this report.
 
-  \item \textbf{Container Diagram}: A viewpoint which shows the details of a single subsystem within a system context diagram. The diagram is composed of containers, which represent an application or datastore (e.g. a web application, filesystem, database, etc.), and high-level references to other subsystems. Section \ref{sect: architecture: container diagrams} explores several container diagrams for the chosen architecture in this report.
+  \item \textbf{Container Diagram}: A viewpoint which shows the details of a single subsystem within a system context diagram. The diagram is composed of containers, which represent an application or datastore (e.g. a web application, filesystem, database, etc.), and high-level references to other subsystems. Sections \ref{sect: architecture: appt svc}, \ref{sect: architecture: ambulance svc}, \ref{sect: architecture: gp notification svc}, and \ref{sect: architecture: patient information svc} display container diagrams for the subsystems which they describe.
 
-  \item \textbf{Component Diagram}: A viewpoint which describes a single container within a container diagram, with respect to the major building blocks (i.e. components) that make up the container. Component diagrams contain some specific details, such as the technology used to implement or communicated between services, but still provide a relatively high-level overview of a container. Section \ref{sect: architecture: component diagrams} explores some component diagrams for the chosen architecture in this report.
+  \item \textbf{Component Diagram}: A viewpoint which describes a single container within a container diagram, with respect to the major building blocks (i.e. components) that make up the container. Component diagrams contain some specific details, such as the technology used to implement or communicated between services, but still provide a relatively high-level overview of a container. Only a limited number of component diagrams are used to describe the proposed architecture for the sake of brevity; Sections \ref{sect: architecture: patient information svc} and \ref{sect: architecture: gp notification svc} display a component diagram for the parts of the architecture which they describe.
 
-  \item \textbf{Code Diagram}: A viewpoint which describes a single component within a component diagram as it is implemented within code, including the classes and interface involved, and their relationships. Code diagrams are not explored in this report, as they reference relatively low-level implementation details, and could be automatically generated from code written during the system's development.
+  \item \textbf{Code Diagram}: A viewpoint which describes a single component within a component diagram as it is implemented within code, including the classes and interface involved, and their relationships. Code diagrams are not explored in this report, as they reference relatively low-level implementation details, and could be automatically generated from code written during the system's development. No code diagrams are displayed in this report, as they are typically auto-generated from a codebase \cite{c4Model}.
 \end{itemize}
 
-The C4 model also includes three supplementary diagrams: the system landscape diagram, the dynamic diagram, and the deployment diagram. However, none of these are reference within this report, as the four core diagrams are sufficient to capture the chosen architecture \cite{c4Model}.
 
 
-\todo{code diagrams not used}
-\todo{only some comp diagrams shown for berevity as the system is very large}
+The C4 Model also includes three supplementary diagrams: the system landscape diagram, the dynamic diagram, and the deployment diagram. However, none of these are reference within this report, as the four core diagrams are sufficient to capture the chosen architecture \cite{c4Model}.
 
-\subsubsection*{Notation}
-\todo{find out from Ben \& Jordan what notation is used}
+
+\subsection{Notation}
+A UML-like notation is used within the C4 Model diagrams, as group members were relatively familiar with the technology. The notation is a hybrid between UML \cite{umlSpec} and the suggested C4 Model notation \cite{c4Model} to keep the diagrams understandable and focussed. It is also worth noting that the diagrams are purely structural, they do not indicate how elements interact as this is described elsewhere only that the elements are communicating with each other.
 
 
 
@@ -34,19 +33,17 @@ The C4 model also includes three supplementary diagrams: the system landscape di
 \subsection{Overview}
 \label{sect: architecture: overview}
 
-The architecture derived for the scenario listed in Appendix \ref{appendix: scenario} is fundamentally a service-oriented architecture (SOA), as the key functionality of the system is implemented by multiple independent, distributed services. The core services used and their roles within the architecture are as follows.
+The architecture derived for the scenario listed in Appendix \ref{appendix: scenario} is fundamentally a service-oriented architecture (SOA), as the key functionality of the system is provided by multiple independent, distributed services. The core services used and their roles within the architecture are as follows.
 
 \begin{itemize}
-  \item \textbf{Appointment Service}: Handles create, read, update, and delete (CRUD) operations relating to appointments, employing business rules in combination with authentication to authorise information appropriately. This service is described further in Section \ref{sect: architecture: appt svc}.
+  \item \textbf{Appointments Service}: Handles create, read, update, and delete (CRUD) operations relating to appointments, employing business rules in combination with authentication to authorise information appropriately. This service is described further in Section \ref{sect: architecture: appt svc}.
 
-  \item \textbf{Patient Information Service}: Handles CRUD operations relating to patient information, employing business rules in combination with authentication to authorise information appropriately. . This service is described further in Section \ref{sect: architecture: Patient Information svc}.
+  \item \textbf{Patient Information Service}: Handles CRUD operations relating to patient information, authorising information similarly to the Appointments Service. This service is described further in Section \ref{sect: architecture: patient information svc}.
 
   \item \textbf{Ambulance Service}: Affords the logging of calls and the dispatching of ambulances. This service is described further in Section \ref{sect: architecture: ambulance svc}.
 
   \item \textbf{GP Notification Service}: Provides the ability to asynchronously pass notifications to GPs. This service is described further in Section \ref{sect: architecture: gp notification svc}.
 \end{itemize}
-
-\todo{which reqs are satisfied by which svc?}
 
 
 In order to enable user interaction with services, a client-server-like architectural style is employed for user-service interactions; Section \ref{sect: architecture: clients} discusses this further.
@@ -59,7 +56,7 @@ Figure \ref{fig: arch overview / system context diagram} displays the system con
 \begin{figure} [H]
   \centering
   \includegraphics[scale = 1]{context.png}
-  \caption{The system context diagram for the chosen architecture, displaying the service-oriented approach used as the fundamental architecture for the system.}
+  \caption{The system context diagram for the proposed architecture, displaying the service-oriented approach used as the fundamental architectural style for the system.}
   \label{fig: arch overview / system context diagram}
 \end{figure}
 
@@ -71,17 +68,17 @@ As the target system's domains can be partitioned with relative ease, an SOA is 
 
 
 \begin{itemize}
-  \item Services can be developed independently, reducing time-to-market, as independent teams can develop each service, and improving business agility, as each service's business rules can be adapted independently, provided the boundaries within the architecture are enforced effectively (see \S\todo{ref SOA not an arch in Eval sec})\cite{ibmSOA}. This is primarily an advantage over more rigid architectures, such as those using a monolithic style.
+  \item Services can be developed independently, reducing time-to-market, as independent teams can develop each service, and improving business agility, as each service's business rules can be adapted independently, provided the boundaries within the architecture are enforced effectively \cite{ibmSOA}. This is primarily an advantage over more rigid architectures, such as those employing a monolithic style.
 
   \item Services can be deployed independently, facilitating the maintainability, short-term scalability (elasticity), and long-term scalability of the target system. This is primarily an advantage over architectures which are designed to have a one-to-one mapping from system instance to deployment machine, such as an architecture employing a layered monolithic style.
 
-  \item Services are more independent with respect to failure than other architectural styles. This means that if one service fails, the failure of other services is not guaranteed, which is particularly beneficial for the target system, as the domains are mostly disconnected. For example, if the GP Notification Service fails, the other services in the system are not guaranteed to fail, meaning that the system will still provide the majority of its functionality to users. Overall, this makes the system more resilient to
+  \item Services are more independent with respect to failure than other architectural styles. This means that if one service fails, the failure of other services is not guaranteed, which is particularly beneficial for the target system, as the domains are mostly disconnected. For example, if the GP Notification Service fails, the other services in the system are not guaranteed to fail, meaning that the system will still provide the majority of its functionality to users. Overall, this improves the system's fault-tolerance.
 
   \item Similarly to failure, the services are more independent with respect to performance than other architectural styles. For example, if the GP Notification Service handles requests slowly due to a bug in its implementation, the Ambulance Service would be unaffected in terms of performance, provided it is deployed on a different machine; this is particularly beneficial for the target system, as some services, such as the Patient Information Service, require a certain level of performance to function as required.
 
   \item Due to the network-based nature of an SOA, services and clients are typically designed to be more robust to failure, improving the overall reliability of the system.
 
-  \item Integration with external systems, such as the \todo{hospital system}, is facilitated, as the target system will be deployed on a network due to the nature of an SOA. Similarly, integration with legacy systems which might need to be included in the newly developed system is facilitated \cite{ibmSOA}.
+  \item Integration with external systems, such as Hospitals (\todo{ref requirement}), is facilitated, as the target system will be deployed on a network due to the nature of an SOA. Similarly, integration with legacy systems which might need to be included in the newly developed system is facilitated \cite{ibmSOA}.
 
   \item The enforcement of architectural boundaries of the target system's domain is improved, as each service's boundary can be mapped directly to each domain's architectural boundary \cite{fundamentalsOfSWA-SOA}.
 
@@ -97,13 +94,12 @@ As the target system's domains can be partitioned with relative ease, an SOA is 
 \subsection{Appointments Service}
 \label{sect: architecture: appt svc}
 
-The Appointments Service handles read and write requests relating to patient appointments. The service is designed with a relatively typical architecture for a read-heavy workload (see \ref{} \todo{assump that appointments are read more than written}), consisting of a service which contains the business logic for the Appointments Service, a datastore, and a cache. Figure \ref{fig: appt svc container diagram} displays the container diagram for the Appointments Service. \todo{right diagram?}
+The Appointments Service handles read and write requests relating to patient appointments. The service is designed with a relatively typical architecture for a read-heavy workloads (see \ref{} \todo{assump that appointments are read more than written}), consisting of a service which contains the business logic for the Appointments Service, a datastore, and a cache. Figure \ref{fig: appt svc container diagram} displays the container diagram for the Appointments Service.
 
 \vspace{4mm}
 \begin{figure} [H]
   \centering
-  % \includegraphics[scale = 0.65]{IMAGE.png}
-  \missingfigure{Appt Svc Container Diagram}
+  \includegraphics[scale = 0.65]{appointment-container.png}
   \caption{The Appointments Service described using a component diagram.}
   \label{fig: appt svc container diagram}
 \end{figure}
@@ -111,18 +107,18 @@ The Appointments Service handles read and write requests relating to patient app
 
 
 \subsubsection*{Datastore}
-The Appointments Service's datastore is used to persist data relating to appointments, improving the service's reliability. From Figure \ref{fig: appt svc container diagram} (CAN IT?\todo{can it?}), it can be seen that the datastore is integrated within the architecture as a dependent on the service component within the Appointments Service, rather than the other way round. This integration style employs the Stable Abstractions Principle (see \S\ref{sect: process: resources}), as the dependency is pointing from the less stable datastore to the more stable business contained within the service component.
+The Appointments Service's datastore is used to persist data relating to appointments, improving the service's reliability. From Figure \ref{fig: appt svc container diagram} (CAN IT?\todo{can it?}), it can be seen that the datastore is integrated within the architecture as a dependent on the service component within the Appointments Service, rather than the other way round. This integration style employs the Stable Abstractions Principle (see \S\ref{sect: process: resources}), as the dependency is pointing from the less stable datastore to the more stable business rules contained within the service component.
 
-The application of the SAP also follows the advice given in Martin's Clean Code regarding how datastores should be integrated within architectures \cite{cleanArch-databasesAreDetails}, and also does not confine the choice of data storage technology, allowing for solutions ranging from a simple file system to a complex RDBMS to be used, improving both the maintainability and scalability of the Appointments Service.
+The application of the SAP also follows the advice given in Martin's Clean Code regarding how datastores should be integrated within architectures \cite{cleanArch-databasesAreDetails}, meaning that the choice of data storage technology is not confined by the service's implementation, allowing for solutions ranging from a simple file system to a complex RDBMS to be used, improving both the maintainability and scalability of the Appointments Service.
 
 
 
 \subsubsection*{Cache}
-To improve the performance of the Appointments Service with relatively low overhead, an in-memory cache is used to respond to some requests without querying the datastore. In order to do so, the cache would store requests and their respective results as they are returned from the service/datastore after they had been retrieved from the service/datastore for the first time
+To improve the performance of the Appointments Service with relatively low overhead, an in-memory cache is used to respond to some requests without querying the datastore. In order to do so, the cache would store requests and their respective results as they are returned from the service after they had been retrieved from the datastore for the first time.
 
-Two key considerations when introducing a cache into a system are how consistency and coherency will be handled during its operation. Handling these concerns, particularly if the cache or service to which the cache is applied to is replicated, can quickly become a complex problem which introduces a significant amount of overhead \cite{dataIntensiveApps-ConsistencyAndConsensus}. Fortunately, as the Appointments Service's workload is read-heavy (see \ref{} \todo{complete ref to assumptions}), the overhead introduced is likely worth handling when considering the potential performance gains introduced by the cache. Other overhead introduced by the cache, including storing entries, checking for entries, and handling evictions is considered to be marginal when compared against the potential performance gains provided.
+Two key considerations when introducing a cache into a system are how consistency and coherency will be handled during its operation. Handling these concerns, particularly if the cache or service to which the cache is applied to is replicated, can quickly become a complex problem which introduces a significant amount of overhead \cite{dataIntensiveApps-ConsistencyAndConsensus}. Fortunately, as the Appointments Service's workload is read-heavy, the trade-off of increased overhead is likely worth it when considering the potential performance gains introduced by the cache. Other overhead introduced by the cache, which includes the storing of entries, checking of entries, and handling evictions, is considered to be marginal when compared against the potential performance gains provided by the cache.
 
-As it is assumed that there are many users \todo{cite assumptions}, it is likely that evicting items from the cache on a commonly used lease-recently-used (LRU) basis is inefficient. This is because the cache will quickly fill up with requests relating to individual users which cannot be reused for other users (e.g. fetching a user's set of appointments), potentially evicting cached information which can be reused (e.g. the grand total of number of appointments for all users). While an alternative cache eviction policy, such as least-frequently used (LFU) or re-reference interval prediction (RRIP) policies, it considered as an implementation detail to determine this, and is therefore excluded from the scope of the architecture.
+As it is assumed that there are many users (see \ref{} \todo{ref}), it is likely that evicting items from the cache on the commonly employed lease-recently-used (LRU) basis is inefficient. This is because the cache will quickly fill up with requests relating to individual users which cannot be reused for other users (e.g. fetching a user's set of appointments), potentially evicting cached information which can be reused (e.g. the grand total of number of appointments for all users). While an alternative cache eviction policy, such as a least-frequently used (LFU) or re-reference interval prediction (RRIP) policy, it considered as an implementation detail to determine this, and is therefore excluded from the scope of the architecture.
 
 
 
@@ -133,32 +129,45 @@ As it is assumed that there are many users \todo{cite assumptions}, it is likely
 \subsection{Patient Information Service}
 \label{sect: architecture: patient information svc}
 
-The Patient Information Service handles all create, read, update, and delete (CRUD) operations relating to patient information, including personal information, such as patient addresses, as well as medical information, such as blood pressure readings. The service employs the use of role-based authentication to provide different users access to different data, as information handled by the service is considered highly sensitive \cite{EUHealthDataProtection} and different users need different access permissions as per the system requirements \todo{cite assump}
+The Patient Information Service handles all create, read, update, and delete (CRUD) operations relating to patient information, including personal information, such as patient addresses, as well as medical information, such as blood pressure readings. The service employs the use of role-based authentication to provide different users access to different data, as information handled by the service is considered highly sensitive \cite{EUHealthDataProtection} and different users need different access permissions as per the system requirements \todo{ref requirements}
+
+
+Figure \ref{fig: patient information container diagram} displays the container diagram for the Patient Information Service.
+
+\vspace{4mm}
+\begin{figure} [H]
+  \centering
+  \includegraphics[scale = 1]{patient-container.png}
+  \caption{The Appointments Service described using a container diagram.}
+  \label{fig: patient information container diagram}
+\end{figure}
+
+
+\todo{bit more on comp arch - ref principles}
+
+One of the key components of the Patient Information Service is the Service component; Figure \ref{fig: patient information component diagram} displays a component diagram for this component.
 
 
 \vspace{4mm}
 \begin{figure} [H]
   \centering
-  \includegraphics[scale = 0.65]{patient-service-container.png}
-  \missingfigure{Patient Information Container Diagram}
-  \caption{The Appointments Service described using a component diagram.}
-  \label{fig: patient information container diagram}
+  \includegraphics[scale = 0.9]{pateint-component.png}
+  \caption{The Appointments Service's Service component described using a component diagram.}
+  \label{fig: patient information component diagram}
 \end{figure}
 
-
-
 \subsubsection*{Datastore \& Cache}
-As the data handled by the Patient Information Service and the Appointments Service (see \S\ref{sect: architecture: appt svc}) are both related to individual patients and are associated with read-heavy workloads (see \ref{} \todo{ref assumptions}), the datastore and cache used within the Patient Information Service are similar to those used in the Appointments Service (see \S\ref{sect: architecture: appt svc}), with respects to both operation and reasons for introducing them as part of the architecture (i.e. reliability and performance).
+As the data handled by the Patient Information Service and the Appointments Service (see \S\ref{sect: architecture: appt svc}) are both related to individual patients and are associated with read-heavy workloads, the datastore and cache used within the Patient Information Service are similar to those used in the Appointments Service (see \S\ref{sect: architecture: appt svc}), with respects to both operation and reasons for introducing them as part of the architecture (i.e. reliability and performance).
 
 
 
 
 \subsubsection*{Multilevel Priority Queue}
-One way in which the Patient Information Service differs from the Appointments Service is the requirement to handle bursty write behaviour when patient information is generated by GPs, as described by \ref{} \todo{ref assumption}. As this behaviour contrasts significantly to typical read-heavy workloads of the Patient Information Service, an additional architectural feature of a multilevel priority queue is introduced to handle all write requests sent to the service.
+One way in which the Patient Information Service differs from the Appointments Service is the requirement to handle bursty write behaviour (i.e. write behaviour that experiences spikes in workload) when patient information is generated by GPs. As this behaviour contrasts significantly to typical read-heavy workloads of the Patient Information Service, an additional architectural feature of a multilevel priority queue is introduced to handle all write requests sent to the service.
 
-A multilevel priority queue is a task queue which consists of multiple queues, each of which associated with a different priority level. Inputted tasks are enqueued onto a queue with respect to their given priority level, with the processing element(s) (e.g. the service component in the example architecture) taking tasks from the data structure based on descending priority, meaning that more important tasks are completed before less important ones \cite{osConceptsMultilevelQueue}.
+A multilevel priority queue is a task queue which consists of multiple queues, each of which associated with a different priority level. Inputted tasks are enqueued onto a queue with respect to their given priority level, with the processing element(s) (e.g. the Service component in the proposed architecture) taking tasks from the data structure based on descending priority, meaning that more important tasks are completed before less important ones \cite{osConceptsMultilevelQueue}.
 
-A multilevel priority queue is employed within proposed architecture to support the unique bursty write workloads without interrupting the standard non-bursty write workloads. Bursty write workloads, such as patient information gathered during testing procedures, are prioritised lower than non-bursty workloads, such as standard updates to patient information (e.g. a change in address), with the service component handling tasks in an order with respect to their priority. The queue nature of the multilevel priority queue also enables for write requests to be delayed as to avoid disrupting and invalidating read workloads, which are likely more important.
+A multilevel priority queue is employed within proposed architecture to support the unique bursty write workloads without interrupting the standard non-bursty write workloads. Bursty write workloads, such as the updating of patient information, gathered during testing procedures, are prioritised lower than non-bursty workloads, such as standard updates to patient information (e.g. a change in address), with the service component handling tasks in an order with respect to their priority. The queue nature of the multilevel priority queue also enables for write requests to be delayed as to avoid disrupting and invalidating read workloads, which are likely more important.
 
 Although multilevel priority queues are commonly implemented as multilevel feedback queues, where tasks are moved between queues depending on the amount of time they have been worked on for \cite{osConceptsMultilevelFeedbackQueue}, such an implementation is unsuitable for the target system's architecture, as it is likely unfair to change the priority of each task once it has been assigned.
 
@@ -185,26 +194,40 @@ Figure \ref{fig: gp notifcation service container diagram} displays a container 
 \vspace{4mm}
 \begin{figure} [H]
   \centering
-  % \includegraphics[scale = 0.65]{IMAGE.png}
-  \missingfigure{GP Notification Svc Container Diagram}
+  \includegraphics[scale = 1]{gp-container.png}
   \caption{The Appointments Service described using a component diagram.}
   \label{fig: gp notifcation service container diagram}
 \end{figure}
 
 
+
+One of the key components within the Appointments Service is the Service component; Figure \ref{fig: patient information component diagram} displays the component diagram for this component.
+
+\todo{more info on component diagram}
+
+\vspace{4mm}
+\begin{figure} [H]
+  \centering
+  \includegraphics[scale = 0.9]{gp-component.png}
+  \caption{The Appointments Service's service component described using a container diagram.}
+  \label{fig: gp notifcation service component diagram}
+\end{figure}
+
+
+
 \subsubsection*{Publish-Subscribe Pattern}
-The GP Notification Service applies an event-driven architectural style in the form of a publish-subscribe (pub-sub) ,system which buffers notifications sent from other services, such as the \todo{what?},
+The GP Notification Service applies an event-driven architectural style in the form of a publish-subscribe (pub-sub) system which buffers notifications sent from other services, such as the \todo{what?},
 
 A pull configuration is used, where the GP client device receives notifications by polling the GP Notification Service, rather than a push configuration, where the GP Notification Service would actively communicate with the GP client device to deliver notifications, for the following reasons.
 
 \begin{enumerate}
   \item The GP devices are external to the system, meaning that initialising communication from the GP Notification Service to each GP device is complicated to achieve in comparison to the other way around \cite{googleCloudPubSub}.
 
-  \item The rate of communication (e.g. polling frequency) can be dynamically adjusted based on the GP device's current network connection. This is more beneficial than the GP Notification Service having this control, as the GP device's network connection is likely to fluctuate more than the GP Notification Service's connection.
+  \item The rate of communication (e.g. polling frequency) can be dynamically adjusted based on the GP device's current network connection. This is more beneficial than the GP Notification Service having this control, as the GP device's network connection is likely to fluctuate more than the GP Notification Service's connection given that it is a user device.
 
   \item The polling interval can be adjusted for each individual GP by the GP's device, allowing for a trade-off in network usage and the amount of delay caused by the gap between the notification being received and polled. For example, if the GP's device has a poor internet connection or is battery powered, the rate of polling could be decreased to improve network efficiency or reduce power consumption.
 
-  \item The notifications being sent to GPs are assumed to not be time-critical \todo{ref assumption?}.
+  \item The notifications being sent to GPs are assumed to not be time-critical, meaning that the delay of messages caused by a pull configuration does not detract from the functionality of the system \todo{ref assumption?}.
 \end{enumerate}
 
 
@@ -220,8 +243,8 @@ The Ambulance Service handles all ambulance-related concerns for the target syst
 \vspace{4mm}
 \begin{figure} [H]
   \centering
-  % \includegraphics[scale = 0.65]{IMAGE.png}
-  \missingfigure{Ambulance Svc Container Diagram}
+  \includegraphics[scale = 0.65]{ambulance-container.png}
+  % \missingfigure{Ambulance Svc Container Diagram}
   \caption{The Ambulance Service described using a component diagram.}
   \label{fig: ambulance svc container diagram}
 \end{figure}
@@ -247,24 +270,20 @@ A push configuration is more performant in comparison to a pull configuration wi
 \label{sect: architecture: clients}
 
 
-The clients within the architecture offer the functionality of the services in the form of a user interface (UI).  Figure \ref{fig: arch client} displays WHAT \todo{what}.
-
-\vspace{4mm}
-\begin{figure} [H]
-  \centering
-  % \includegraphics[scale = 0.65]{IMAGE.png}
-  \missingfigure{System context diagram}
-  \caption{A container diagram for the WHAT? client, displaying the use of the gateway and BFF architectural patterns.}
-  \label{fig: client container diagram}
-\end{figure}
+The clients within the architecture offer the functionality of the services in the form of a user interface (UI).  Figures \ref{} \todo{ref all container diagrams}.
 
 
-The overarching architectural style applied for communication between clients and services is the client-server style, where the clients, such as patient mobile devices, communicate with internal services, such as the Patient Information Service, through the use of standard web technologies (e.g. HTTP/HTTPS) to offload computation and data-storage responsibilities. In order to provide seamless, flexible, reliable, and secure integration with the services, the clients exhibit two primary architectural patterns within the client-server style: gateways and backends for frontends.
+The overarching architectural style applied for communication between clients and services is the client-server style, where the clients, such as patient mobile devices, communicate with internal services, such as the Patient Information Service, through the use of standard web technologies (e.g. HTTP/HTTPS) to offload computation and data-storage responsibilities.
 
+In order to provide seamless, flexible, reliable, and secure integration with the services, the clients exhibit two primary architectural patterns within the client-server style: gateways and backends for frontends.
+
+
+\todo{validation}
+\todo{support for variety of interfaces \& future expansion}
 
 \subsubsection*{Gateway Pattern}
 
-The gateway architectural pattern employs an intermediate service to mediate requests which pass from client devices to the services within a system, rather than having client devices communicate directly with the services. This can be seen in Figure \ref{}, where the \todo{finish sent}.
+The gateway architectural pattern employs an intermediate service to mediate requests which pass from client devices to the services within a system, rather than having client devices communicate directly with the services.
 
 The gateway architectural pattern provides the following advantages.
 
@@ -308,7 +327,7 @@ The trade-offs of using both the BFF and gateway pattern in the target system's 
 \subsection{Authentication}
 \label{sect: architecture: authentication}
 
-Authentication is a critical part of the system's functionality, as all services require some form of authentication to function in-line with the system's specification. For example, the \todo{}.
+Authentication is a critical part of the system's functionality, as all services require some form of authentication to function in-line with the system's specification. For example, the \todo{ref requirement}.
 
 In order to include authentication within the system's architecture, the OAuth 2 framework \cite{OAuth2} was chosen for the following reasons.
 

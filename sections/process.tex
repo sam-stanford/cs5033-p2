@@ -1,61 +1,52 @@
-\subsection{Brief Descriptions}
-\todo{rename subsect}
+\subsection{Architecting Phases}
+\label{sect: process: phases}
 
-The process that was utilised to derive this architecture was not particularly complex but was one that required a substantial amount of detailed analysis and critical thought. There were two primary phases during which the conception of the presented architecture took place, which were the Pre-Planning Phase, and the Discussion and Planning Phase.
-
-\subsubsection*{Pre-Planning Phase}
-To begin, the architects for this software convened, in order to discuss the first steps and identify the basic requirements and fundamentals.  From the outset, it was clear that there were a number of considerations that were required to be taken into account. These considerations were the cornerstones in the architectural design process and were crucial in informing the final architecture.
-
-Primarily, one of the most important considerations was the security of the system. Health data is sensitive for a number of reasons. The leakage of sensitive information or any security breaches could put the individuals whose health information was infringed, in an extremely vulnerable position. Individuals could lose their jobs, support networks, housing, etc. or be at risk of psychological risk and/or social ostracization if certain information became public knowledge. Furthermore, the release of such sensitive information could facilitate attempts to commit identity fraud. (https://www.ncbi.nlm.nih.gov/books/NBK9579/.) \todo{do cite}
-
-Keeping this in mind, it was of utmost importance that the system was able to store data, in accordance with the HIPAA (Health Insurance Portability and Accountability Act) guidelines. This Act was extremely useful in guiding the architectural development of this system, as it illustrated very stringent guidelines about how healthcare providers could use patient data, what could be disclosed and to whom. Alongside this, the HIPAA guidelines were also very clear on how data should be handled, maintained and transmitted, specifically regarding the technical safeguards required, such as ensuring patient data is encrypted during rest and transit, audit controls for all hardware and software management and integrity controls to ensure ePHI (electronically protected health information).
-Hence, this knowledge informed the expectations of the architectural framework developed for this scenario and was embedded in the final architecture.
-
-Another extremely critical consideration was the robustness of the system. One of the key assumptions of healthcare systems is that they must be functional most of the time. This is because medical emergencies can happen at any time, and it is essential for the system to be able to handle requests, such as extracting patient records or viewing recent treatments, at any given time. For instance, in the event that a new medication has had an immediate onset of severe symptoms, the Ambulance Service Crew must be able to view the patient records and the new administered treatment, in order to make an informed guess about the potential issue, and then treat the issue. Hence, if the system is down, this information would not be accessible, which could have potentially fatal consequences.
-As such, it was extremely critical to ensure that the system would continue to function, despite the existence of faults in its constituent subsystems. Thus, it was fundamental that the architectural design followed some semblance of a component-based architecture, or a fallback plan, in order to ensure that the system could function in the presence of extenuating contextual factors.
-
-The final essential consideration was the performance of the system. As medical professionals require patient data in real-time, it is essential that the system is able to respond to requests within a specific frame of time. Hence, considerations such as latency (time spent responding to an event) or channel capacity (the number of concurrent events) are essential for the development of this architecture.
-
-Thus, once these two principles were identified, they underpinned the rest of our architectural derivation process and the team chose to conduct independent research, in order to identify the most suitable solutions.
-
-
-
+The process that was used to derive this architecture was consisted of two primary phases, were the Planning Phase and Design Phase.
 
 \subsubsection*{Planning Phase}
-Once the independent research phase had been concluded, the team reconvened, in order to compare solutions and develop the most fitting solution. Each team member put forth an initial proposal of an architectural framework that would befit either a specific component of the system or the overall system as a whole. This allowed the team to discuss and refine the presented proposals, and incorporate distinct aspects of the solutions into the final system.
+The first phase to take place was the Planning Phase, which focussed on determining the requirements which the architecture should support and the characteristics which the architecture should display. The determined requirements are listed in Section \ref{sect: requirements}, and the characteristics which were highlighted during discussion are as follows.
 
-The team elected to meet in the John Honey Teaching Labs (JHB: JH110), as the use of a whiteboard was required for the purposes of designing the architecture.
+\begin{enumerate}
+  \item \textbf{Security}: One of the most important characteristics for the architecture to support is the security of the system. Health data is sensitive for a number of reasons, with its leakage potentially putting the individuals whose health information was infringed in vulnerable position \cite{EUHealthDataProtection}. Both the NHS' documentation regarding data security \cite{nhsDataSecurity} and other resources, such as the HIPAA guidelines \cite{HIPAA-Guidelines}\cite{HIPAA-Privacy-WholeBook}, were consulted during the architecture's design in order to cater for this concern.
 
-The discussion was prefaced with a group read-through of the specification provided, during which, the key stakeholders and actors were identified, such as the staff in the General Practice (Nurse, General Practitioner, Administrator), the members of the Ambulance Service (Crew and Administrator), the staff in the Hospital (Administrator and Doctor) and finally, the patients. This was represented in a whiteboard sketch.
+  \item \textbf{Robustness}: The robustness of the system is a critical consideration, as healthcare systems must be operations for 24 hours a day, 7 days a week. This is because medical emergencies can happen at any time, and it is essential for relating systems to be able to handle requests, such as extracting patient records or viewing recent treatments, at any given time. As such, it was determined that the system should continue to function, despite any faults within its constituent subsystems, leading to a component-based architecture being used.
 
-Once these key stakeholders were identified, their associated tasks and behaviours were associated with them. For example, the General Practitioner would be expected to make and attend digital appointments, order test kits, etc, while the Ambulance Service Administrator would be expected to log incoming calls and dispatch assistance to those who have requested so.
-As the expected functionality would enable the team to design the most effective architectural frameworks for the constituent subsystems, this step was essential.
-
-Following this, the team discussed the assumptions that were made during the process of deciding which architectural framework would fit best. These assumptions are presented in a more detailed manner in the above sections. However, prior to the codification of such assumptions, the team discussed and debated each premise, in order to ensure that our model most accurately represented the real-world behaviours of the General Practice/Hospital/Ambulance Service/patient stakeholders. Like the expected functionality, it was key to develop the assumptions at this stage as they would go on to play a major role in informing the final architecture plan that was designed. This was added to the whiteboard sketch, before delving into the architectural framework development.
-
-Finally, once the actors, their expected functionality and assumptions had been decided upon, the team discussed some fundamental architectural styles and patterns that could be utilised to represent the system. Some of the styles and patterns discussed were a Publish-Subscribe system for the Ambulance Service Crew and Health Boards, a potential Event Queue system for the General Practitioner, etc.
-
-The initial whiteboard sketch that represents all of these elements and potential solutions is illustrated below.
+  \item \textbf{Performance}: The final essential consideration was the performance of the system. As medical professionals require the reading and writing of patient data in real-time, it is essential that the system is able to respond to requests within a specific frame of time. Hence, considerations such as latency and channel capacity were considered essential during the development of the proposed architecture.
+\end{enumerate}
 
 
+
+
+
+\subsubsection*{Design Phase}
+The design of the architecture took place iteratively, with initial architectural designs being completed by different group members, and later being combined into a final architecture which was repeatedly refined.
+
+All designs are centred around the key stakeholders and actors of the system, including GP staff, Ambulance Service staff, Hospital staff, and patients, as well as their associated tasks and behaviours. For example, architectures would consider the GPs and how their tasks of making and attending digital appointments, order test kits, etc. could be supported by the architecture. Considering the required functionality while designing the architecture enabled the discovery of the most effective architectural frameworks for the constituent subsystems.
+
+Throughout the design process, several ambiguities within the scenario were discovered, leading to a set of assumptions to be made for the final architectural design; these assumptions are presented in Section \ref{sect: requirements: assumptions}. Alongside the consideration of actors and requirements, fundamental architectural styles and patterns that could be utilised within the system were discussed. Discussed styles and patterns include the publish-subscribe pattern for the Ambulance Service Crew, and the event-driven style for the General Practitioner.
+
+Figure \ref{fig: whiteboard sketch} displays the final architecture which was determined during the Design Phase, where it can be seen that the stakeholders of the system are illustrated, including as the GP staff, Hospital staff, patients, and Ambulance Service staff, along with the chosen services that are represented in circles. The different entities that interact with these activities are represented through arrows, which makes it easier to conceptualise the communication required between actors and services.
+
+The bottom right of the diagram in Figure \ref{fig: whiteboard sketch} displays a proposal for the architecture of the Patient Information Service. It can be seen that the proposed architecture is similar to that of the final architecture of the service, which is discussed in Section \ref{sect: architecture: patient information svc}.
 
 \vspace{4mm}
 \begin{figure} [H]
   \centering
-  \includegraphics[scale = 0.3]{Whiteboard.jpg}
+  \includegraphics[scale = 0.4]{Whiteboard.png}
   \caption{Initial whiteboard sketch of the proposed architecture.}
   \label{fig: whiteboard sketch}
 \end{figure}
 
-As seen above in Figure 3, the stakeholders of the system are illustrated, such as the General Practice staff, Health Board staff, patients and Ambulance Service staff, with some simple associated services that are represented in circles. The different entities that interact with these activities are represented through arrows, which makes it easier to conceptualise the varying access permissions and data requirements that each Actor has.
 
-The bottom right corner represents an example sketch of the architecture discussed for the General Practitioner. The notion of a cache is used to address the real-time requirements of the General Practice when accessing patient information. The patient information is represented as being accessed through a database (as noted from the diagram), and the event-queue system is a basic solution to represent the list of tasks that must be completed by the Practice.
-Despite only sketching out an architecture for one subsystem, this exercise proved to be immensely helpful in designing the rest of the architecture. Specifically, this enabled the team to critically evaluate the specific functionalities, data management procedures and architectural characteristics of different entities of the system, and consider the concrete implementation strategies that needed to be reflected within the architecture.
-Thus, this sketching method was highly effective in guiding the team's design process, as it highlighted the specific requirements and intersystem behaviours that needed to be considered.
 
-Once every parameter of the system had been considered, the team was able to design a full system architecture for the specified scenario, which capitalised on a large part of the discussion that took place during the planning phase.
 
-The final architectural specification is discussed in detail in the next section.
+
+
+
+
+
+
+
 
 
 
@@ -64,20 +55,20 @@ The final architectural specification is discussed in detail in the next section
 
 The primary literature resources used to influence the design, evaluation, and implementation plan of the chosen architecture were Robert C. Martin's Clean Architecture \cite{cleanArch-WholeBook}, and Mark Richards and Neal Ford's Fundamentals of Software Architecture \cite{fundamentalsOfSWA-WholeBook}.
 
-Clean Architecture provides information on architecture from a practical standpoint, including fundamental principles to follow when architecting a system, including a set of fundamental component principles. The principles relating to the architecture of components which are explored Clean Architecture are divided into two groups: those which deal with component cohesion, and those which deal with component coupling. The principles relating to component cohesion are as follows.
+Fundamentals of Software Architecture was used to influence the choice and application of different architectural styles, patterns, and features. Clean Architecture provides information on architecture from a practical standpoint, including fundamental principles to follow when architecting a system, including a set of component principles, which influenced the design of the proposed architecture. These component principles are divided into two groups: those which deal with component cohesion, and those which deal with component coupling. The principles relating to component cohesion are as follows.
 
 \begin{itemize}
-  \item \textbf{Reuse/Release Equivalence Principle (REP)}:
-  \item \textbf{Common Closure Principle (CCP)}:
-  \item \textbf{Common Reuse Principle (CRP)}
+  \item \textbf{Reuse/Release Equivalence Principle (REP)}: Component constituents which are released together should be reused together and vice versa.
+  \item \textbf{Common Closure Principle (CCP)}: Component constituents which change for the same reason and at the same time should be placed in the same component.
+  \item \textbf{Common Reuse Principle (CRP)}: Components should not contain excess constituents in a way which would force users to depend on things they do not need.
 \end{itemize}
 
 The principles relating to component coupling in Clean Architecture are as follows.
 
 \begin{itemize}
-  \item \textbf{Acyclic Dependencies Principle (ADP)}:
-  \item \textbf{Stable Dependencies Principle (SDP)}:
-  \item \textbf{Stable Abstractions Principle (SAP)}:
+  \item \textbf{Acyclic Dependencies Principle (ADP)}: The component dependency graph should not contain any cycles.
+  \item \textbf{Stable Dependencies Principle (SDP)}: Dependencies between components should point in the direction of stability, leading to most dependencies pointing in the direction of the system's business rules.
+  \item \textbf{Stable Abstractions Principle (SAP)}: Components should be as abstract as they are stable. For example, a stable component (e.g. a business rule implementation) should be implemented as interfaces and abstract classes, while a volatile component (e.g. a web interface) should try to avoid such abstractions.
 \end{itemize}
 
 
