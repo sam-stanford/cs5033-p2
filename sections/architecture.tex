@@ -78,7 +78,7 @@ As the target system's domains can be partitioned with relative ease, an SOA is 
 
   \item Due to the network-based nature of an SOA, services and clients are typically designed to be more robust to failure, improving the overall reliability of the system.
 
-  \item Integration with external systems, such as Hospitals (\todo{ref requirement}), is facilitated, as the target system will be deployed on a network due to the nature of an SOA. Similarly, integration with legacy systems which might need to be included in the newly developed system is facilitated \cite{ibmSOA}.
+  \item Integration with external systems, such as Hospitals (see requirement 8 in Section \ref{sect: requirements: functional}), is facilitated, as the target system will be deployed on a network due to the nature of an SOA. Similarly, integration with legacy systems which might need to be included in the newly developed system is facilitated \cite{ibmSOA}.
 
   \item The enforcement of architectural boundaries of the target system's domain is improved, as each service's boundary can be mapped directly to each domain's architectural boundary \cite{fundamentalsOfSWA-SOA}.
 
@@ -90,24 +90,24 @@ As the target system's domains can be partitioned with relative ease, an SOA is 
 
 
 
-
+\newpage
 \subsection{Appointments Service}
 \label{sect: architecture: appt svc}
 
-The Appointments Service handles read and write requests relating to patient appointments. The service is designed with a relatively typical architecture for a read-heavy workloads (see \ref{} \todo{assump that appointments are read more than written}), consisting of a service which contains the business logic for the Appointments Service, a datastore, and a cache. Figure \ref{fig: appt svc container diagram} displays the container diagram for the Appointments Service.
+The Appointments Service handles read and write requests relating to patient appointments. The service is designed with a relatively typical architecture for a read-heavy workloads, consisting of a service which contains the business logic for the Appointments Service, a datastore, and a cache. Figure \ref{fig: appt svc container diagram} displays the container diagram for the Appointments Service.
 
 \vspace{4mm}
 \begin{figure} [H]
   \centering
-  \includegraphics[scale = 0.65]{appointment-container.png}
-  \caption{The Appointments Service described using a component diagram.}
+  \includegraphics[scale = 1]{appointment-container.png}
+  \caption{The Appointments Service described using a container diagram.}
   \label{fig: appt svc container diagram}
 \end{figure}
 
 
 
 \subsubsection*{Datastore}
-The Appointments Service's datastore is used to persist data relating to appointments, improving the service's reliability. From Figure \ref{fig: appt svc container diagram} (CAN IT?\todo{can it?}), it can be seen that the datastore is integrated within the architecture as a dependent on the service component within the Appointments Service, rather than the other way round. This integration style employs the Stable Abstractions Principle (see \S\ref{sect: process: resources}), as the dependency is pointing from the less stable datastore to the more stable business rules contained within the service component.
+The Appointments Service's datastore is used to persist data relating to appointments, improving the service's reliability. The datastore is integrated within the Appointments Service's architecture in such a way that the datastore component is dependent on the service component within the Appointments Service, rather than the other way round. This integration style employs the Stable Abstractions Principle (see \S\ref{sect: process: resources}), as the dependency is pointing from the less stable datastore to the more stable business rules contained within the service component.
 
 The application of the SAP also follows the advice given in Martin's Clean Code regarding how datastores should be integrated within architectures \cite{cleanArch-databasesAreDetails}, meaning that the choice of data storage technology is not confined by the service's implementation, allowing for solutions ranging from a simple file system to a complex RDBMS to be used, improving both the maintainability and scalability of the Appointments Service.
 
@@ -118,21 +118,21 @@ To improve the performance of the Appointments Service with relatively low overh
 
 Two key considerations when introducing a cache into a system are how consistency and coherency will be handled during its operation. Handling these concerns, particularly if the cache or service to which the cache is applied to is replicated, can quickly become a complex problem which introduces a significant amount of overhead \cite{dataIntensiveApps-ConsistencyAndConsensus}. Fortunately, as the Appointments Service's workload is read-heavy, the trade-off of increased overhead is likely worth it when considering the potential performance gains introduced by the cache. Other overhead introduced by the cache, which includes the storing of entries, checking of entries, and handling evictions, is considered to be marginal when compared against the potential performance gains provided by the cache.
 
-As it is assumed that there are many users (see \ref{} \todo{ref}), it is likely that evicting items from the cache on the commonly employed lease-recently-used (LRU) basis is inefficient. This is because the cache will quickly fill up with requests relating to individual users which cannot be reused for other users (e.g. fetching a user's set of appointments), potentially evicting cached information which can be reused (e.g. the grand total of number of appointments for all users). While an alternative cache eviction policy, such as a least-frequently used (LFU) or re-reference interval prediction (RRIP) policy, it considered as an implementation detail to determine this, and is therefore excluded from the scope of the architecture.
+As it is assumed that there are many users, as the system is designed for the NHS, it is likely that evicting items from the cache on the commonly employed lease-recently-used (LRU) basis is inefficient. This is because the cache will quickly fill up with requests relating to individual users which cannot be reused for other users (e.g. fetching a user's set of appointments), potentially evicting cached information which can be reused (e.g. the grand total of number of appointments for all users). While an alternative cache eviction policy, such as a least-frequently used (LFU) or re-reference interval prediction (RRIP) policy, it considered as an implementation detail to determine this, and is therefore excluded from the scope of the architecture.
 
 
 
 
 
 
-
+\newpage
 \subsection{Patient Information Service}
 \label{sect: architecture: patient information svc}
 
-The Patient Information Service handles all create, read, update, and delete (CRUD) operations relating to patient information, including personal information, such as patient addresses, as well as medical information, such as blood pressure readings. The service employs the use of role-based authentication to provide different users access to different data, as information handled by the service is considered highly sensitive \cite{EUHealthDataProtection} and different users need different access permissions as per the system requirements \todo{ref requirements}
+The Patient Information Service handles all create, read, update, and delete (CRUD) operations relating to patient information, including personal information, such as patient addresses, as well as medical information, such as blood pressure readings. The service employs the use of role-based authentication to provide different users access to different data, as information handled by the service is considered highly sensitive \cite{EUHealthDataProtection} and different users need different access permissions as per the system requirements (see \S\ref{sect: requirements: functional}).
 
 
-Figure \ref{fig: patient information container diagram} displays the container diagram for the Patient Information Service.
+Figure \ref{fig: patient information container diagram} displays a container diagram for the Patient Information Service.
 
 \vspace{4mm}
 \begin{figure} [H]
@@ -143,9 +143,7 @@ Figure \ref{fig: patient information container diagram} displays the container d
 \end{figure}
 
 
-\todo{bit more on comp arch - ref principles}
-
-One of the key components of the Patient Information Service is the Service component; Figure \ref{fig: patient information component diagram} displays a component diagram for this component.
+One of the key components of the Patient Information Service is the Service component. Figure \ref{fig: patient information component diagram} displays a component diagram for this component, with the arrows representing the direction of dependency between the constituent parts.
 
 
 \vspace{4mm}
@@ -155,6 +153,11 @@ One of the key components of the Patient Information Service is the Service comp
   \caption{The Appointments Service's Service component described using a component diagram.}
   \label{fig: patient information component diagram}
 \end{figure}
+
+It can be seen from the dependencies shown in Figure \ref{fig: patient information component diagram} that the Stable Abstractions Principle (see \S\ref{sect: process: resources}) is applied, such that all dependencies are pointing towards an abstract concept, such as an interface or the implementation of the business rules in the Service subcomponent (marked with an asterisk in the diagram).
+
+
+
 
 \subsubsection*{Datastore \& Cache}
 As the data handled by the Patient Information Service and the Appointments Service (see \S\ref{sect: architecture: appt svc}) are both related to individual patients and are associated with read-heavy workloads, the datastore and cache used within the Patient Information Service are similar to those used in the Appointments Service (see \S\ref{sect: architecture: appt svc}), with respects to both operation and reasons for introducing them as part of the architecture (i.e. reliability and performance).
@@ -180,7 +183,7 @@ Although multilevel priority queues are commonly implemented as multilevel feedb
 The GP Notification Service is a comparatively simple service which provides the ability to asynchronously pass notifications to GPs through the use of a publish-subscribe messaging system. This service was introduced in the architecture for the following primary reasons.
 
 \begin{enumerate}
-  \item The GP Notification Service allows for the GP client device to be decoupled from the services which send notifications to GPs, such as the \todo{which service?}.
+  \item The GP Notification Service allows for the GP client device to be decoupled from the rest of the infrastructure which sends notifications to GPs, such as the hospital.
 
   \item The addition of future features which require GP notifications are greatly facilitated, as the new features would simply need to interact with the GP Notification Service, with no other architectural changes being required.
 
@@ -195,7 +198,7 @@ Figure \ref{fig: gp notifcation service container diagram} displays a container 
 \begin{figure} [H]
   \centering
   \includegraphics[scale = 1]{gp-container.png}
-  \caption{The Appointments Service described using a component diagram.}
+  \caption{The GP Notification Service described using a container diagram.}
   \label{fig: gp notifcation service container diagram}
 \end{figure}
 
@@ -203,20 +206,20 @@ Figure \ref{fig: gp notifcation service container diagram} displays a container 
 
 One of the key components within the Appointments Service is the Service component; Figure \ref{fig: patient information component diagram} displays the component diagram for this component.
 
-\todo{more info on component diagram}
+Similarly to the Service component within the Appointments Service (see \S\ref{sect: architecture: appt svc}), the Stable Abstractions Principle and Common Closure Principle (see \S\ref{sect: process: resources}) are applied, such that dependencies point towards more stable components.
 
 \vspace{4mm}
 \begin{figure} [H]
   \centering
   \includegraphics[scale = 0.9]{gp-component.png}
-  \caption{The Appointments Service's service component described using a container diagram.}
+  \caption{The GP Notifications's Service component described using a component diagram.}
   \label{fig: gp notifcation service component diagram}
 \end{figure}
 
 
 
 \subsubsection*{Publish-Subscribe Pattern}
-The GP Notification Service applies an event-driven architectural style in the form of a publish-subscribe (pub-sub) system which buffers notifications sent from other services, such as the \todo{what?},
+The GP Notification Service applies an event-driven architectural style in the form of a publish-subscribe (pub-sub) system which buffers notifications sent from other services.
 
 A pull configuration is used, where the GP client device receives notifications by polling the GP Notification Service, rather than a push configuration, where the GP Notification Service would actively communicate with the GP client device to deliver notifications, for the following reasons.
 
@@ -227,14 +230,14 @@ A pull configuration is used, where the GP client device receives notifications 
 
   \item The polling interval can be adjusted for each individual GP by the GP's device, allowing for a trade-off in network usage and the amount of delay caused by the gap between the notification being received and polled. For example, if the GP's device has a poor internet connection or is battery powered, the rate of polling could be decreased to improve network efficiency or reduce power consumption.
 
-  \item The notifications being sent to GPs are assumed to not be time-critical, meaning that the delay of messages caused by a pull configuration does not detract from the functionality of the system \todo{ref assumption?}.
+  \item The notifications being sent to GPs are assumed to not be time-critical, meaning that the delay of messages caused by a pull configuration does not detract from the functionality of the system.
 \end{enumerate}
 
 
 
 
 
-
+\newpage
 \subsection{Ambulance Service}
 \label{sect: architecture: ambulance svc}
 
@@ -252,9 +255,6 @@ The Ambulance Service handles all ambulance-related concerns for the target syst
 
 
 \subsubsection*{Publish-Subscribe Pattern}
-
-\todo{how is the pubsub used?}
-
 Similarly to the GP Notification Service (see \S\ref{sect: architecture: gp notification svc}), the Ambulance Service employs an event-driven architectural style in the form of a publish-subscribe (pub-sub) messaging system. The pub-sub system is used primarily for performance purposes, and therefore uses a push configuration for message delivery, contrasting to the pull configuration used for the GP Notification Service.
 
 A push configuration is more performant in comparison to a pull configuration with respect to message delivery latency, because the delay between the message arriving at the Ambulance Service and being sent to the client device is marginal, in comparison to a pull configuration where the delay is on average half of the polling interval \cite{googleCloudPubSub}. Although a push configuration adds complexity from communicating with client devices outside the system's internal network, and reduces flexibility for the power and network consumption for client devices, these trade-offs are accepted in favour of the reduced message delivery delay, as this characteristic is critical to the Ambulance Service's functionality.
@@ -270,16 +270,13 @@ A push configuration is more performant in comparison to a pull configuration wi
 \label{sect: architecture: clients}
 
 
-The clients within the architecture offer the functionality of the services in the form of a user interface (UI).  Figures \ref{} \todo{ref all container diagrams}.
+The clients within the architecture offer the functionality of the services in the form of a user interface (UI). All clients share a similar architecture, which can be seen in Figures \ref{fig: appt svc container diagram}, \ref{fig: patient information container diagram}, \ref{fig: gp notifcation service container diagram}, and \ref{fig: ambulance svc container diagram}, and provides the support for a variety of different device types, as well as the potential for functionality, such as form validation.
 
 
 The overarching architectural style applied for communication between clients and services is the client-server style, where the clients, such as patient mobile devices, communicate with internal services, such as the Patient Information Service, through the use of standard web technologies (e.g. HTTP/HTTPS) to offload computation and data-storage responsibilities.
 
 In order to provide seamless, flexible, reliable, and secure integration with the services, the clients exhibit two primary architectural patterns within the client-server style: gateways and backends for frontends.
 
-
-\todo{validation}
-\todo{support for variety of interfaces \& future expansion}
 
 \subsubsection*{Gateway Pattern}
 
@@ -314,7 +311,7 @@ While similar to the gateway pattern, and often considered synonymous \cite{bffs
   \item Each BFF backend can be tailored specifically to its respective frontend, allowing for platform-specific intricacies to be handled cleanly, in turn facilitating development, and improving performance and maintainability. This is in contrast to the gateway pattern which uses a single backend for all frontends.
 \end{itemize}
 
-The trade-offs of using both the BFF and gateway pattern in the target system's architecture are discussed in Section \ref{} of this report.
+The trade-offs of using both the BFF and gateway pattern in the target system's architecture are discussed in Section \ref{sect: evaluation: current considerations} of this report.
 
 
 
@@ -327,7 +324,7 @@ The trade-offs of using both the BFF and gateway pattern in the target system's 
 \subsection{Authentication}
 \label{sect: architecture: authentication}
 
-Authentication is a critical part of the system's functionality, as all services require some form of authentication to function in-line with the system's specification. For example, the \todo{ref requirement}.
+Authentication is a critical part of the system's functionality, as all services require some form of authentication to function in-line with the system's specification. For example, functional requirement 2 in Section \ref{sect: requirements: functional} can be achieved through the use of authentication.
 
 In order to include authentication within the system's architecture, the OAuth 2 framework \cite{OAuth2} was chosen for the following reasons.
 

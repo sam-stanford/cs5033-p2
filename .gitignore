@@ -4,3 +4,4 @@ main.*
 *.log
 .vscode
 .vscode/*
+personal-report.txt
